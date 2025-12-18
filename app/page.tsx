@@ -1,65 +1,88 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import { useState } from "react";
+import { motion } from "motion/react";
+import { CreateRoomModal } from "./components/Lobby/CreateRoomModal";
+import { RoomList } from "./components/Lobby/RoomList";
+
+export default function LandingPage() {
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white flex flex-col items-center p-8">
+      {/* Hero Section */}
+      <div className="text-center mt-12 mb-16">
+        <motion.h1
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="text-7xl font-black tracking-tighter mb-4 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500"
+        >
+          RGPD POLY
+        </motion.h1>
+        <p className="text-slate-400 text-xl max-w-2xl mx-auto">
+          Le jeu ultime pour maîtriser la protection des données. Créez un
+          salon, invitez vos collègues et dominez le marché de la conformité !
+        </p>
+      </div>
+
+      {/* Actions */}
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Create Room Card */}
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          className="bg-slate-800/50 p-8 rounded-3xl border border-slate-700 hover:border-emerald-500/50 transition-colors backdrop-blur-sm flex flex-col items-center text-center"
+        >
+          <div className="w-16 h-16 bg-emerald-500/20 rounded-2xl flex items-center justify-center mb-6 text-emerald-400 text-3xl">
+            +
+          </div>
+          <h2 className="text-2xl font-bold mb-2">Créer un salon</h2>
+          <p className="text-slate-400 mb-8">
+            Lancez une nouvelle partie et définissez les règles.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => setIsCreateModalOpen(true)}
+            className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold rounded-xl transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            Créer une partie
+          </button>
+        </motion.div>
+
+        {/* Join Room Card */}
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          className="bg-slate-800/50 p-8 rounded-3xl border border-slate-700 hover:border-cyan-500/50 transition-colors backdrop-blur-sm flex flex-col"
+        >
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center text-cyan-400 text-2xl">
+              #
+            </div>
+            <div>
+              <h2 className="text-xl font-bold">Salons publics</h2>
+              <p className="text-slate-400 text-sm">
+                Rejoindre une partie en cours
+              </p>
+            </div>
+          </div>
+
+          <RoomList />
+        </motion.div>
+      </div>
+
+      {/* Quick Access (Dev) */}
+      <div className="mt-12 text-slate-600">
+        <Link
+          href="/game"
+          className="hover:text-emerald-400 transition-colors text-sm"
+        >
+          Accès rapide au plateau (Dev Mode) &rarr;
+        </Link>
+      </div>
+
+      <CreateRoomModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+      />
+    </main>
   );
 }
