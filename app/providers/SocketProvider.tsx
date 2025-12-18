@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { socket } from "../lib/socket";
-import type { Socket } from "socket.io-client";
 
 interface Room {
   id: string;
@@ -14,7 +13,7 @@ interface Room {
 }
 
 interface SocketContextType {
-  socket: Socket;
+  socket: typeof socket;
   rooms: Room[];
   isConnected: boolean;
 }
